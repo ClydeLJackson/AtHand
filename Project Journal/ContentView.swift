@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            HStack{
+                Sidebar()
+                    Divider()
+                JournalView()
+                
+            }
+            .preferredColorScheme(.dark)
         }
-        .padding()
-    }
 }
 
 #Preview {
