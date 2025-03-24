@@ -14,7 +14,7 @@ struct ContentView: View {
                 Sidebar()
                     Divider()
                 JournalView()
-                
+                //yooo
             }
             .preferredColorScheme(.dark)
         }
