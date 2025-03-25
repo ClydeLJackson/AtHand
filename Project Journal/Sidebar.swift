@@ -23,11 +23,14 @@ struct Sidebar: View {
                 
                 //Project Name List
                 ForEach (projects, id: \.self.id){ project in
-                    HStack{
-                        Text(project.name)
+                        Button(){
+                            
+                        }label:{
+                            Text(project.name)
+                                .frame(maxWidth: .infinity)
                             .padding()
-                        Spacer()
-                    }
+                        }
+                        .buttonStyle(.borderless)
                     Divider()
                 }
                 
