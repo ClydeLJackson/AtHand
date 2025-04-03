@@ -6,10 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
+
+struct slot: View{
+    var category: Category
+   
+    
+    var body: some View{
+        Button(){
+            
+        }label:{
+            Text(category.name)
+                .frame(maxWidth: .infinity)
+                .padding()
+        }
+        .buttonStyle(.borderless)
+        Divider()
+    }
+}
 
 struct Sidebar: View {
     @State var currentName:String = ""
-    @State var projects : [Project] = []
+    var selectedCategory: SelectedCategory
+    @Environment(\.modelContext) private var context
+    @Query private var projects : [Category]
+
     var body: some View{
         ScrollView{
             VStack(){
@@ -21,38 +42,45 @@ struct Sidebar: View {
                 }
                 Divider()
                 
-                //Project Name List
-                ForEach (projects, id: \.self.id){ project in
-                        Button(){
-                            
-                        }label:{
-                            Text(project.name)
-                                .frame(maxWidth: .infinity)
-                            .padding()
-                        }
-                        .buttonStyle(.borderless)
-                    Divider()
-                }
-                
                 TextField("New Project", text: $currentName)
                     .onKeyPress(keys: [.return]) { press in
-                        let project = Project(name: "\(currentName)")
-                        projects.append(project)
-                        
-                        currentName = ""
-                        
+                        AddCategory(name: currentName)
                         return .handled
                     }
+                //Project Name List
+                ForEach (projects){ project in
+                    
+                    Button(){
+                        selectedCategory.category = project
+                    }label:{
+                        Text(project.name)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    }
+                    .buttonStyle(.borderless)
+                    Divider()
+                    //slot(category: project)
+                }
+                
+                
                 
                 Spacer()
                 
             }
         }
         .frame(width: 175)
-      //  .presentationSizing()
+        //  .presentationSizing()
+    }
+    
+    func AddCategory(name: String){
+        let project = Category(name: name,task: [])
+        //print(project )
+        context.insert(project)
+        print(context.insertedModelsArray)
+        currentName = ""
     }
 }
 
-#Preview{
-    Sidebar()
-}
+//#Preview{
+   // Sidebar()
+//}
